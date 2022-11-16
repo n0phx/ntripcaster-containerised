@@ -7,13 +7,20 @@ Firstly, clone your repository
 ```
 git clone https://github.com/charlesquick/ntripcaster-containerised.git
 ```
-Navigate to `ntripcaster/conf` and copy the `.dist` files to working files
+Navigate to `ntripcaster/conf` and copy the config files to the `/etc/ntripcaster/` dir on the host machine.
+
 ```
+mkdir -p /etc/ntripcaster
+
 cd ntripcaster-containerised/ntripcaster/conf
 
-cp ntripcaster.conf.dist ntripcaster.conf
-cp sourcetable.dat.dist sourcetable.dat
-cp mountpos.conf.dist mountpos.conf
+cp ntripcaster.conf.dist /etc/ntripcaster/ntripcaster.conf
+cp sourcetable.dat.dist /etc/ntripcaster/sourcetable.dat
+cp mountpos.conf.dist /etc/ntripcaster/mountpos.conf
+cp clientmounts.aut /etc/ntripcaster/clientmounts.aut
+cp groups.aut /etc/ntripcaster/groups.aut
+cp sourcemounts.aut /etc/ntripcaster/sourcemounts.aut
+cp users.aut /etc/ntripcaster/users.aut
 ```
 ### edit ntripcaster.conf
 Enter your details in the caster metadata
@@ -71,7 +78,7 @@ Successfully built 68b1841290ef
 ```
 then run it, using the -p flag to map the appropriate port. 
 ```
-docker run -p2101:2101 68b1841290ef
+docker run -d -p 2101:2101 --name ntripcaster --restart=always -v /etc/ntripcaster:/usr/local/ntripcaster/conf 68b1841290ef
 ```
 If you used the -t flag earlier you can call it by its friendly name instead. You can add some further arguments so that you get your terminal back, and the caster runs silently in the background.
 ```
